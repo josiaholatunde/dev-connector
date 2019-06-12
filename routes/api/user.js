@@ -3,12 +3,21 @@ const gravatar = require('gravatar');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
+const registerValidator = require('../../validators/register');
 
 
 module.exports = app => {
   // app.get('/api/users', (req, res, next) => {});
 
   app.post('/auth/register', async (req, res, next) => {
+
+    const {
+      errors,
+      isValid
+    } = registerValidator(req.body);
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
     const {
       name,
       email,

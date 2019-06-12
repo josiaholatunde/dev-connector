@@ -42,3 +42,6 @@ db.once('open', () => {
 });
 
 module.exports = app;
+
+
+// mongodb+srv://ade:pa$$word17@cluster0-foh4x.mongodb.net/test?w=majority
