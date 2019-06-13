@@ -11,7 +11,6 @@ opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 
 module.exports = (passport) => {
   passport.use(new JwtStrategy(opts, async (payload, done) => {
-    console.log(payload);
     const userFromRepo = await User.findById(payload.id);
     if (!userFromRepo) {
       return done(null, false);
