@@ -29,6 +29,45 @@ module.exports = app => {
     }
   });
 
+
+  //@route GET /api/profile
+  //@desc get profile of user based on User Id
+  //@access public 
+  app.get('/api/profile/handle/:user_id', async (req, res, next) => {
+    const errors = {};
+    try {
+      const userProfile = await Profile.findOne({
+        user: req.params.user_id
+      }).populate('user', ['name', 'avatar']);
+      if (!userProfile) {
+        errors.profile = 'No profile was found for this user';
+        return res.status(404).json(errors);
+      }
+      return res.json(userProfile);
+    } catch (error) {
+      return res.status(404).json(error);
+    }
+  })
+
+  //@route GET /api/profile
+  //@desc get profile of user based on handle
+  //@access public 
+  app.get('/api/profile/handle/:handle', async (req, res, next) => {
+    const errors = {};
+    try {
+      const userProfile = await Profile.findOne({
+        user: req.params.handle
+      }).populate('user', ['name', 'avatar']);
+      if (!userProfile) {
+        errors.profile = 'No profile was found for this user';
+        return res.status(404).json(errors);
+      }
+      return res.json(userProfile);
+    } catch (error) {
+      return res.status(404).json(error);
+    }
+  })
+
   //@route GET /api/profile
   //@desc logged in user profile
   //@access private 
