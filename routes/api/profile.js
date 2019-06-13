@@ -2,6 +2,8 @@ const passport = require('passport');
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
 const profileValidator = require('../../validators/profile');
+const experienceValidator = require('../../validators/experience');
+const educationValidator = require('../../validators/education');
 
 module.exports = app => {
   //@route GET /api/profile
@@ -33,7 +35,7 @@ module.exports = app => {
   //@route GET /api/profile
   //@desc get profile of user based on User Id
   //@access public 
-  app.get('/api/profile/handle/:user_id', async (req, res, next) => {
+  app.get('/api/profile/user/:user_id', async (req, res, next) => {
     const errors = {};
     try {
       const userProfile = await Profile.findOne({
@@ -45,24 +47,24 @@ module.exports = app => {
       }
       return res.json(userProfile);
     } catch (error) {
-      return res.status(404).json(error);
+      return res.status(404).json({
+        profile: 'No profile was found for this user'
+      });
     }
   })
 
   //@route GET /api/profile
-  //@desc get profile of user based on handle
+  //@desc get profile of all users
   //@access public 
-  app.get('/api/profile/handle/:handle', async (req, res, next) => {
+  app.get('/api/profile/all', async (req, res, next) => {
     const errors = {};
     try {
-      const userProfile = await Profile.findOne({
-        user: req.params.handle
-      }).populate('user', ['name', 'avatar']);
-      if (!userProfile) {
-        errors.profile = 'No profile was found for this user';
+      const userProfiles = await Profile.find({}).populate('user', ['name', 'avatar']);
+      if (!userProfiles) {
+        errors.profile = 'No profile was found';
         return res.status(404).json(errors);
       }
-      return res.json(userProfile);
+      return res.json(userProfiles);
     } catch (error) {
       return res.status(404).json(error);
     }
@@ -148,5 +150,91 @@ module.exports = app => {
         msg: `An error occurred while Creating profile \n ${error}`
       });
     }
-  })
+  });
+  //@route POST /api/profile/experience
+  //@desc create new user experience
+  //@access private 
+  app.post('/api/profile/experience', passport.authenticate('jwt', {
+    session: false
+  }), async (req, res) => {
+    const errors = {};
+    const result = experienceValidator(req.body);
+    if (!result.isValid) {
+      return res.status(400).json(result.errors);
+    }
+    const {
+      title,
+      company,
+      location,
+      from,
+      to,
+      current,
+      description
+    } = req.body;
+    try {
+      const profile = await Profile.findOne({
+        user: req.user.id
+      });
+      if (!profile) {
+        errors.profile = 'No profile was found for this user';
+        return res.status(404).json();
+      }
+      const newExp = {
+        title,
+        company,
+        location,
+        from,
+        to,
+        current,
+        description
+      }
+      profile.experience.unshift(newExp);
+      const profileAfterSave = await profile.save();
+      return res.json(profileAfterSave);
+    } catch (error) {
+      return res.status(400).json(error);
+    }
+  });
+
+  app.post('/api/profile/education', passport.authenticate('jwt', {
+    session: false
+  }), async (req, res) => {
+    const errors = {};
+    const result = educationValidator(req.body);
+    if (!result.isValid) {
+      return res.status(400).json(result.errors);
+    }
+    const {
+      title,
+      company,
+      location,
+      from,
+      to,
+      current,
+      description
+    } = req.body;
+    try {
+      const profile = await Profile.findOne({
+        user: req.user.id
+      });
+      if (!profile) {
+        errors.profile = 'No profile was found for this user';
+        return res.status(404).json();
+      }
+      const newEdu = {
+        title,
+        company,
+        location,
+        from,
+        to,
+        current,
+        description
+      }
+      profile.experience.unshift(newEdu);
+      const profileAfterSave = await profile.save();
+      return res.json(profileAfterSave);
+    } catch (error) {
+      return res.status(400).json(error);
+    }
+  });
 }
