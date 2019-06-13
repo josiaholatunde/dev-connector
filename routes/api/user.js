@@ -4,6 +4,7 @@ const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const registerValidator = require('../../validators/register');
+const loginValidator = require('../../validators/login');
 
 
 module.exports = app => {
@@ -63,6 +64,14 @@ module.exports = app => {
   });
 
   app.post('/auth/login', async (req, res, next) => {
+    const {
+      errors,
+      isValid
+    } = loginValidator(req.body);
+
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
     const {
       email,
       password
