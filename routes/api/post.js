@@ -73,11 +73,12 @@ module.exports = app => {
   }), async (req, res, next) => {
     let errors = {};
     try {
+
       const profile = await Profile.findOne({
         user: req.user.id
       });
       if (!profile) {
-        errors.unauthorized = 'Please create a profile and post before attempting to unlike a post';
+        errors.unauthorized = 'Please create a profile and post before attempting to like a post';
         return res.status(401).json(errors);
       }
       const post = await Post.findOne({
@@ -102,6 +103,111 @@ module.exports = app => {
       return res.status(200).json({
         success: 'Successfully liked post'
       });
+    } catch (error) {
+      return res.status(404).json(error);
+    }
+
+  });
+
+
+  app.post('/api/posts/unlike/:id', passport.authenticate('jwt', {
+    session: false
+  }), async (req, res, next) => {
+    let errors = {};
+    try {
+      const profile = await Profile.findOne({
+        user: req.user.id
+      });
+      if (!profile) {
+        errors.unauthorized = 'Please create a profile and post before attempting to unlike a post';
+        return res.status(401).json(errors);
+      }
+      const post = await Post.findOne({
+        _id: req.params.id
+      });
+      if (!post) {
+        errors.postNotFound = `No post with the id of ${req.params.id} was found`;
+        return res.status(404).json(errors);
+      }
+      if (post.likes.filter(like => like.user.toString() === req.user.id).length > 0) {
+        post.likes = post.likes.filter(like => like.user.toString() !== req.user.id);
+        await post.save();
+        return res.status(200).json({
+          success: 'Successfully unlike post'
+        });
+      }
+      errors.unlike = 'You have not liked this post before';
+      return res.status(400).json(errors);
+
+    } catch (error) {
+      return res.status(404).json(error);
+    }
+
+  });
+  app.post('/api/posts/comment/:id', passport.authenticate('jwt', {
+    session: false
+  }), async (req, res, next) => {
+    let errors = {};
+    try {
+      const {
+        errors,
+        isValid
+      } = PostValidator(req.body);
+      if (!isValid) {
+        return res.status(400).json(errors);
+      }
+      const {
+        text,
+        name,
+        avatar
+      } = req.body;
+      const post = await Post.findOne({
+        _id: req.params.id
+      });
+      if (!post) {
+        errors.postNotFound = `No post with the id of ${req.params.id} was found`;
+        return res.status(404).json(errors);
+      }
+
+      const newComment = {
+        user: req.user.id,
+        text,
+        avatar,
+        name
+      };
+      post.comments.unshift(newComment);
+
+      const savedPost = await post.save();
+      return res.status(200).json(savedPost);
+
+    } catch (error) {
+      return res.status(404).json(error);
+    }
+
+  });
+  app.delete('/api/posts/comment/:id/:comment_id', passport.authenticate('jwt', {
+    session: false
+  }), async (req, res, next) => {
+    let errors = {};
+    try {
+
+      const post = await Post.findOne({
+        _id: req.params.id
+      });
+      if (!post) {
+        errors.postNotFound = `No post with the id of ${req.params.id} was found`;
+        return res.status(404).json(errors);
+      }
+
+      if (post.comments.filter(comment => comment._id.toString() === req.params.comment_id).length === 0) {
+        errors.commentNotFound = `No comment with the id of ${req.params.comment_id} was found`;
+        return res.status(404).json(errors);
+      }
+      post.comments = post.comments.filter(comment => comment._id.toString() !== req.params.comment_id);
+
+      const savedPost = await post.save();
+      return res.status(200).json(savedPost);
+
     } catch (error) {
       return res.status(404).json(error);
     }
