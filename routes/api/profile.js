@@ -1,9 +1,11 @@
 const passport = require('passport');
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
+
 const profileValidator = require('../../validators/profile');
 const experienceValidator = require('../../validators/experience');
 const educationValidator = require('../../validators/education');
+
 
 module.exports = app => {
   //@route GET /api/profile
@@ -319,4 +321,5 @@ module.exports = app => {
       });
     }
   }))
+  });
 }
