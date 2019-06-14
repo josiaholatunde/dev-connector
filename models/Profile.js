@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const ProfileSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'users',
     required: true
   },
   handle: {
@@ -39,14 +39,18 @@ const ProfileSchema = new Schema({
       required: true
     },
     to: {
-      type: Date,
-      required: true
+      type: Date
     },
     current: {
       type: Boolean,
       default: false
     }
   }],
+  skills: [{
+    type: String,
+    required: true
+  }],
+
   education: [{
     school: {
       type: String,
@@ -65,8 +69,7 @@ const ProfileSchema = new Schema({
       required: true
     },
     to: {
-      type: Date,
-      required: true
+      type: Date
     },
     current: {
       type: Boolean,
@@ -80,6 +83,27 @@ const ProfileSchema = new Schema({
   status: {
     type: String,
     required: true
+  },
+  social: {
+    youtube: {
+      type: String,
+      trim: true
+    },
+    facebook: {
+      type: String,
+      trim: true
+    },
+    linkedin: {
+      type: String,
+      trim: true
+    },
+    instagram: {
+      type: String,
+      trim: true
+    },
+  },
+  bio: {
+    type: String,
   },
   githubUsername: {
     type: String,
