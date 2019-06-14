@@ -38,6 +38,7 @@ db.once('open', () => {
   require('./routes/api/indexRoutes')(app);
   require('./routes/api/user')(app);
   require('./routes/api/profile')(app);
+  require('./routes/api/post')(app);
   console.log(`Server running on port ${port}`);
 });
 
