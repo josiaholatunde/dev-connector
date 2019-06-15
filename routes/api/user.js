@@ -1,10 +1,13 @@
-const User = require("../../models/User");
-const gravatar = require("gravatar");
-const bcryptjs = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const passport = require("passport");
-const registerValidator = require("../../validators/register");
-const loginValidator = require("../../validators/login");
+
+const User = require('../../models/User');
+const gravatar = require('gravatar');
+const bcryptjs = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const passport = require('passport');
+const registerValidator = require('../../validators/register');
+const loginValidator = require('../../validators/login');
+
+
 
 module.exports = app => {
   // app.get('/api/users', (req, res, next) => {});
@@ -53,8 +56,13 @@ module.exports = app => {
     }
   });
 
-  app.post("/auth/login", async (req, res, next) => {
-    const { errors, isValid } = loginValidator(req.body);
+
+  app.post('/auth/login', async (req, res, next) => {
+    const {
+      errors,
+      isValid
+    } = loginValidator(req.body);
+
 
     if (!isValid) {
       return res.status(400).json(errors);
@@ -62,6 +70,11 @@ module.exports = app => {
 
     const { email, password } = req.body;
 
+    const {
+      email,
+      password
+    } = req.body;
+    
     try {
       const userFromDb = await User.findOne({
         email
