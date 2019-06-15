@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import "./auth.scss";
 class Register extends Component {
   state = {
@@ -81,4 +82,4 @@ class Register extends Component {
   }
 }
 
-export default Register;
+export default connect()(Register);
