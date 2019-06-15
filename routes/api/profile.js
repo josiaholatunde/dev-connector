@@ -5,8 +5,6 @@ const profileValidator = require("../../validators/profile");
 const experienceValidator = require("../../validators/experience");
 const educationValidator = require("../../validators/education");
 
-
-
 module.exports = app => {
   //@route GET /api/profile
   //@desc logged in user profile
@@ -324,30 +322,36 @@ module.exports = app => {
   );
   //@route DELETE /api/profile/education
   //@desc delete user education from profile
-  //@access private 
-  app.delete('/api/profile/:id', passport.authenticate('jwt', {
-    session: false
-  }, async (req, res) => {
-    const errors = {};
-    try {
-      const {
-        id
-      } = req.params;
-      const [res1, res2] = await Promise.all([Profile.findOneAndRemove({
-        user: req.user.id
-      }), User.findOneAndRemove({
-        id: req.user.id
-      })]);
-      console.log(profile);
-      return res.status(200).json({
-        success: true
-      });
-    } catch (error) {
-      return res.status(404).json({
-        profile: 'No profile was found for this user'
-      });
-    }
-  }))
-  });
-}
-
+  //@access private
+  app.delete(
+    "/api/profile/:id",
+    passport.authenticate(
+      "jwt",
+      {
+        session: false
+      },
+      async (req, res) => {
+        const errors = {};
+        try {
+          const { id } = req.params;
+          const [res1, res2] = await Promise.all([
+            Profile.findOneAndRemove({
+              user: req.user.id
+            }),
+            User.findOneAndRemove({
+              id: req.user.id
+            })
+          ]);
+          console.log(profile);
+          return res.status(200).json({
+            success: true
+          });
+        } catch (error) {
+          return res.status(404).json({
+            profile: "No profile was found for this user"
+          });
+        }
+      }
+    )
+  );
+};
