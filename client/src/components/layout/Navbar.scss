@@ -1,0 +1,83 @@
+.nav {
+  padding: 0.6rem;
+
+  .flex-con {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+
+    .nav-left .brand {
+      font-size: 1.3rem;
+    }
+    .nav-left,
+    .nav-right {
+      display: flex;
+      align-items: center;
+      li {
+        padding: 0.5rem;
+        display: flex;
+        align-items: center;
+        margin: 0 0.4rem;
+        cursor: pointer;
+        a {
+          color: rgba(255, 255, 255, 0.5);
+          text-align: left;
+          cursor: pointer;
+        }
+        a:hover {
+          color: rgba(255, 255, 255, 0.8);
+        }
+      }
+    }
+  }
+}
+
+li.brand a {
+  color: #fff !important;
+}
+
+/* Landing */
+.landing {
+  background: url("../../img/showcase.jpg") center center/cover no-repeat;
+  height: 100vh;
+  position: relative;
+  .dark-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.7);
+    height: 100%;
+    width: 100%;
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      margin-top: -5rem;
+      color: #fff;
+    }
+  }
+}
+.text-center {
+  text-align: center;
+}
+
+.display-lead {
+  font-size: 3rem;
+  //padding: 1rem 0;
+}
+.lead {
+  text-align: center;
+  font-size: 1.2rem;
+  // padding: 1rem 0;
+}
+
+/* Footer */
+footer {
+  display: flex;
+  padding: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
