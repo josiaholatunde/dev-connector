@@ -12,11 +12,11 @@ export const loginUser = userToLogin => async dispatch => {
   }
 };
 
-export const registerUser = (userToRegister = async dispatch => {
+export const registerUser = userToRegister => async dispatch => {
   try {
     const result = await axios.post("/auth/register", userToRegister);
     console.log(result.data);
   } catch (error) {
     dispatch({ type: GET_ERRORS, payload: error.response.data });
   }
-});
+};

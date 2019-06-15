@@ -24,8 +24,7 @@ class Login extends Component {
   };
 
   render() {
-    const { email, password } = this.state;
-    const { errors } = this.props.login;
+    const { email, password, errors } = this.state;
     console.log("Yo", this.props);
     return (
       <div className="con text-center">

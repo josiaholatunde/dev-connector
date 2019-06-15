@@ -1,9 +1,6 @@
 import { LOGIN_USER } from "../actions/types";
 
 const initialState = {
-  login: {
-    errors: {}
-  },
   isAuthenticated: false,
   user: {}
 };
