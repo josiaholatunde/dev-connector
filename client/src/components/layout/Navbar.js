@@ -12,7 +12,11 @@ class NavBar extends Component {
     const authLinks = (
       <React.Fragment>
         <li>
-          <a onClick={() => this.props.logOut()} className="logout flex-center">
+          <a
+            href=""
+            onClick={() => this.props.logOut()}
+            className="logout flex-center"
+          >
             <img
               src={user.avatar}
               style={{

@@ -22,7 +22,7 @@ if (localStorage.getItem("jwtToken")) {
   const currentTime = Date.now() / 1000;
   if (decodedToken.exp < currentTime) {
     store.dispatch({ type: SET_CURRENT_USER, payload: {} });
-    window.location.href = "/login";
+    //window.location.href = "/login";
   }
   //Clear current profile
 
