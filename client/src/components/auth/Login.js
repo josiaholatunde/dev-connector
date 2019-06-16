@@ -10,6 +10,21 @@ class Login extends Component {
     errors: {}
   };
 
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
+    }
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+
   handleChange = e => this.setState({ [e.target.name]: e.target.value });
 
   handleSubmit = e => {
@@ -73,7 +88,8 @@ Login.propTypes = {
   loginUser: PropTypes.func.isRequired
 };
 const mapStateToProps = state => ({
-  login: state.auth.login
+  errors: state.errors,
+  auth: state.auth
 });
 
 export default connect(

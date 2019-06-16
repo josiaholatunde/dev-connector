@@ -62,6 +62,11 @@ li.brand a {
 .text-center {
   text-align: center;
 }
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .display-lead {
   font-size: 3rem;
