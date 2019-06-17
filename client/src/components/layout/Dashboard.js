@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getProfile } from "../../actions/profileAction";
+import { getProfile, deleteAccount } from "../../actions/profileAction";
 import Spinner from "../common/Spinner";
 import { Link } from "react-router-dom";
 import ProfileActions from "./ProfileActions";
@@ -9,6 +9,10 @@ class Dashboard extends Component {
   componentDidMount() {
     this.props.getProfile();
   }
+
+  handleDelete = e => {
+    this.props.deleteAccount();
+  };
   render() {
     const { user } = this.props.auth;
     const { profile, loading } = this.props.profile;
@@ -25,6 +29,16 @@ class Dashboard extends Component {
                 {user.name}
               </Link>
               <ProfileActions />
+              {/* Experience and Education */}
+              <div className="btn-group mt-3">
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={this.handleDelete}
+                >
+                  Delete Account
+                </button>
+              </div>
             </p>
           </div>
         );
@@ -55,5 +69,5 @@ const mapStateToProps = state => ({
 });
 export default connect(
   mapStateToProps,
-  { getProfile }
+  { getProfile, deleteAccount }
 )(Dashboard);

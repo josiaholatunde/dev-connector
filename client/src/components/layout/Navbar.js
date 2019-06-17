@@ -12,6 +12,9 @@ class NavBar extends Component {
     const authLinks = (
       <React.Fragment>
         <li>
+          <Link to="/dashboard">Dashboard</Link>
+        </li>
+        <li>
           <a
             href="#"
             onClick={() => this.props.logOut()}

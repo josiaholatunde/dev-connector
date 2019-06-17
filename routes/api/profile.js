@@ -132,6 +132,7 @@ module.exports = app => {
         });
         if (profile) {
           //update
+          console.log(profileFields);
           const updatedProfile = await Profile.findOneAndUpdate(
             {
               user: req.user.id
@@ -324,7 +325,7 @@ module.exports = app => {
   //@desc delete user education from profile
   //@access private
   app.delete(
-    "/api/profile/:id",
+    "/api/profile",
     passport.authenticate(
       "jwt",
       {
@@ -333,15 +334,13 @@ module.exports = app => {
       async (req, res) => {
         const errors = {};
         try {
-          const { id } = req.params;
-          const [res1, res2] = await Promise.all([
-            Profile.findOneAndRemove({
-              user: req.user.id
-            }),
-            User.findOneAndRemove({
-              id: req.user.id
-            })
-          ]);
+          const deletedProfile = await Profile.findOneAndRemove({
+            user: req.user.id
+          });
+          const deletedUser = User.findOneAndRemove({
+            id: req.user.id
+          });
+
           console.log(profile);
           return res.status(200).json({
             success: true
