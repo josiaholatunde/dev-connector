@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { getProfile } from "../../actions/profileAction";
 import Spinner from "../common/Spinner";
 import { Link } from "react-router-dom";
+import ProfileActions from "./ProfileActions";
 
 class Dashboard extends Component {
   componentDidMount() {
@@ -18,7 +19,13 @@ class Dashboard extends Component {
       if (Object.keys(profile).length > 0) {
         dashboard = (
           <div>
-            <p>Todo: Display Profile</p>
+            <p>
+              Welcome{" "}
+              <Link style={{ color: "#333" }} to={`/profile/${profile.handle}`}>
+                {user.name}
+              </Link>
+              <ProfileActions />
+            </p>
           </div>
         );
       } else {

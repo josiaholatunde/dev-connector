@@ -6,15 +6,26 @@
   width: 100%;
   padding: 0 7rem;
   margin-bottom: 1.5rem;
-  input {
-    height: 2.5rem;
+  input,
+  textarea,
+  select {
     border: 1px solid #333;
     padding: 0.6rem;
     width: 100%;
     border-radius: 0.3rem;
     font-size: 1.2rem;
   }
-  input:focus {
+  input,
+  select {
+    height: 2.5rem;
+    width: 100%;
+  }
+  textarea {
+    height: 7rem;
+  }
+  input:focus,
+  select:focus,
+  textarea:focus {
     outline: none;
   }
   span {
