@@ -80,7 +80,7 @@ module.exports = app => {
         }
         const payload = {
           id: userFromDb._id,
-          name: userFromDb.email,
+          name: userFromDb.name,
           avatar: userFromDb.avatar
         };
         jwt.sign(

@@ -116,7 +116,8 @@ class Register extends Component {
 }
 
 const mapStateToProps = state => ({
-  errors: state.errors
+  errors: state.errors,
+  auth: state.auth
 });
 
 export default connect(

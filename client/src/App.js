@@ -7,6 +7,7 @@ import NavBar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import Landing from "./components/layout/Landing";
 import Login from "./components/auth/Login";
+import Dashboard from "./components/layout/Dashboard";
 import Register from "./components/auth/Register";
 import { setAuthToken } from "./utils/setAuthToken";
 import jwt_decode from "jwt-decode";
@@ -39,6 +40,7 @@ function App() {
             <div className="container py-2">
               <Route path="/login" exact component={Login} />
               <Route path="/register" exact component={Register} />
+              <Route path="/dashboard" exact component={Dashboard} />
             </div>
           </Switch>
           <Footer />

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_ERRORS, SET_CURRENT_USER } from "./types";
+import { GET_ERRORS, SET_CURRENT_USER, CLEAR_PROFILE } from "./types";
 import jwt_decode from "jwt-decode";
 import { setAuthToken } from "../utils/setAuthToken";
 
@@ -34,5 +34,7 @@ export const registerUser = (userToRegister, history) => async dispatch => {
 export const logOut = () => async dispatch => {
   localStorage.removeItem("jwtToken");
   setAuthToken(false);
+  //Clear Profile
+  dispatch({ type: CLEAR_PROFILE });
   dispatch({ type: SET_CURRENT_USER, payload: {} });
 };

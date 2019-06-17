@@ -13,7 +13,7 @@ class NavBar extends Component {
       <React.Fragment>
         <li>
           <a
-            href=""
+            href="#"
             onClick={() => this.props.logOut()}
             className="logout flex-center"
           >

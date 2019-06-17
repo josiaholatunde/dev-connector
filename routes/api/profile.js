@@ -17,7 +17,7 @@ module.exports = app => {
     async (req, res, next) => {
       const { id } = req.user;
       let errors = {};
-      //Load Users profile
+      // Load Users profile
       try {
         const userProfile = await Profile.findOne({
           user: id
