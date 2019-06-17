@@ -12,6 +12,8 @@ import Register from "./components/auth/Register";
 import { setAuthToken } from "./utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 import { SET_CURRENT_USER } from "./actions/types";
+import PrivateRoute from "./components/common/PrivateRoute";
+import CreateProfile from "./components/create-profile/Create-Profile";
 
 if (localStorage.getItem("jwtToken")) {
   const token = localStorage.jwtToken;
@@ -40,7 +42,12 @@ function App() {
             <div className="container py-2">
               <Route path="/login" exact component={Login} />
               <Route path="/register" exact component={Register} />
-              <Route path="/dashboard" exact component={Dashboard} />
+              <PrivateRoute path="/dashboard" exact component={Dashboard} />
+              <PrivateRoute
+                path="/create-profile"
+                exact
+                component={CreateProfile}
+              />
             </div>
           </Switch>
           <Footer />
