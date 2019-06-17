@@ -3,14 +3,38 @@ import { connect } from "react-redux";
 import TextFieldGroup from "../common/TextFieldGroup";
 import { GET_ERRORS } from "../../actions/types";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
+import { addExperience } from "../../actions/profileAction";
+import { withRouter } from "react-router-dom";
 class AddExperience extends Component {
   state = {
+    company: "",
+    title: "",
+    location: "",
+    from: "",
+    to: "",
+    current: false,
+    description: "",
+    disabled: false,
     errors: {}
   };
-  handleCheck = e => {};
+  handleCheck = e =>
+    this.setState({
+      disabled: !this.state.disabled,
+      current: !this.state.current
+    });
   handleChange = e => this.setState({ [e.target.name]: e.target.value });
   handleSubmit = e => {
     e.preventDefault();
+    const { company, title, location, from, to, description } = this.state;
+    const newExp = {
+      company,
+      title,
+      location,
+      from,
+      to,
+      description
+    };
+    this.props.addExperience(newExp, this.props.history);
   };
 
   componentWillReceiveProps(nextProps) {
@@ -27,7 +51,8 @@ class AddExperience extends Component {
       from,
       to,
       current,
-      description
+      description,
+      disabled
     } = this.state;
 
     return (
@@ -62,6 +87,7 @@ class AddExperience extends Component {
             error={errors.location}
             onChange={this.handleChange}
           />
+          <h6>From Date:</h6>
           <TextFieldGroup
             name="from"
             type="date"
@@ -69,10 +95,12 @@ class AddExperience extends Component {
             error={errors.from}
             onChange={this.handleChange}
           />
+          <h6>To Date:</h6>
           <TextFieldGroup
             name="to"
             type="date"
             value={to}
+            disabled={disabled ? "disabled" : ""}
             error={errors.to}
             onChange={this.handleChange}
           />
@@ -83,6 +111,7 @@ class AddExperience extends Component {
               onChange={this.handleCheck}
               name="current"
               value={current}
+              checked={current}
             />
             <label htmlFor="current">Current Job</label>
           </div>
@@ -108,4 +137,7 @@ const mapStateToProps = state => ({
   profile: state.profile,
   errors: state.errors
 });
-export default connect(mapStateToProps)(AddExperience);
+export default connect(
+  mapStateToProps,
+  { addExperience }
+)(withRouter(AddExperience));

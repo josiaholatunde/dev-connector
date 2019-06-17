@@ -22,6 +22,7 @@ function TextFieldGroup({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        disabled={disabled}
       />
       {info && <span className="text-mute">{info}</span>}
       {error && <span className="invalid-feedback">{error}</span>}
@@ -33,7 +34,7 @@ TextFieldGroup.propTypes = {
   type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   error: PropTypes.string,
-  placeholder: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
   disabled: PropTypes.string,
   info: PropTypes.string,
   onChange: PropTypes.func.isRequired,

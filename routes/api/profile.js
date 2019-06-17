@@ -204,7 +204,7 @@ module.exports = app => {
           current,
           description
         };
-        profile.experience.unshift(newExp);
+        profile.experiences.unshift(newExp);
         const profileAfterSave = await profile.save();
         return res.json(profileAfterSave);
       } catch (error) {

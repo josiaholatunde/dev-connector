@@ -33,3 +33,12 @@ export const deleteAccount = () => async dispatch => {
     dispatch({ type: GET_ERRORS, payload: error.response.data });
   }
 };
+
+export const addExperience = (newExp, history) => async dispatch => {
+  try {
+    const result = await axios.post("/api/profile/experience", newExp);
+    history.push("/dashboard");
+  } catch (error) {
+    dispatch({ type: GET_ERRORS, payload: error.response.data });
+  }
+};
