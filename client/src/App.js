@@ -16,6 +16,7 @@ import PrivateRoute from "./components/common/PrivateRoute";
 import CreateProfile from "./components/create-profile/Create-Profile";
 import EditProfile from "./components/create-profile/Edit-Profile";
 import AddExperience from "./components/add-credentials/AddExperience";
+import AddEducation from "./components/add-credentials/AddEducation";
 
 if (localStorage.getItem("jwtToken")) {
   const token = localStorage.jwtToken;
@@ -45,6 +46,11 @@ function App() {
               <Route path="/login" exact component={Login} />
               <Route path="/register" exact component={Register} />
               <PrivateRoute path="/dashboard" exact component={Dashboard} />
+              <PrivateRoute
+                path="/add-education"
+                exact
+                component={AddEducation}
+              />
               <PrivateRoute
                 path="/add-experience"
                 exact
