@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { registerUser } from "../../actions/authAction";
 import classnames from "classnames";
+import { withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
 
 import "./auth.scss";
 class Register extends Component {
@@ -12,6 +14,12 @@ class Register extends Component {
     password2: "",
     errors: {}
   };
+
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
+    }
+  }
 
   handleChange = e => this.setState({ [e.target.name]: e.target.value });
 
@@ -24,7 +32,7 @@ class Register extends Component {
       password,
       password2
     };
-    this.props.registerUser(newUser);
+    this.props.registerUser(newUser, this.props.history);
     console.log(newUser);
   };
 
@@ -108,10 +116,11 @@ class Register extends Component {
 }
 
 const mapStateToProps = state => ({
-  errors: state.errors
+  errors: state.errors,
+  auth: state.auth
 });
 
 export default connect(
   mapStateToProps,
   { registerUser }
-)(Register);
+)(withRouter(Register));
