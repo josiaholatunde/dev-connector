@@ -17,6 +17,7 @@ import CreateProfile from "./components/create-profile/Create-Profile";
 import EditProfile from "./components/create-profile/Edit-Profile";
 import AddExperience from "./components/add-credentials/AddExperience";
 import AddEducation from "./components/add-credentials/AddEducation";
+import Profiles from "./components/layout/Profiles";
 
 if (localStorage.getItem("jwtToken")) {
   const token = localStorage.jwtToken;
@@ -45,6 +46,8 @@ function App() {
             <div className="container py-2">
               <Route path="/login" exact component={Login} />
               <Route path="/register" exact component={Register} />
+              <Route path="/profiles" exact component={Profiles} />
+
               <PrivateRoute path="/dashboard" exact component={Dashboard} />
               <PrivateRoute
                 path="/add-education"

@@ -256,70 +256,64 @@ module.exports = app => {
   //@desc delete user experience from profile
   //@access private
   app.delete(
-    "/api/profile/experience/:exp_id",
-    passport.authenticate(
-      "jwt",
-      {
-        session: false
-      },
-      async (req, res) => {
-        const errors = {};
-        try {
-          const { exp_id } = req.params;
-          const profile = await Profile.findOne({
-            user: req.user.id
-          });
-          if (!profile) {
-            errors.profile = "No profile was found for this user";
-            return res.status(404).json(errors);
-          }
-          const deletedProfile = profile.experience.filter(
-            exp => exp._id !== exp_id
-          );
-          const savedProfile = await deletedProfile.save();
-          res.status(204);
-        } catch (error) {
-          return res.status(404).json({
-            profile: "No profile was found for this user"
-          });
+    "/api/profile/experience/:id",
+    passport.authenticate("jwt", {
+      session: false
+    }),
+    async (req, res, next) => {
+      const errors = {};
+      try {
+        const profile = await Profile.findOne({
+          user: req.user.id
+        });
+        if (!profile) {
+          errors.noProfile = "No profile was found for this user";
+          return res.status(404).json(errors);
         }
+        const remainingProfile = profile.experiences.filter(
+          exp => exp._id.toString() !== req.params.id
+        );
+        profile.experiences = remainingProfile;
+        const savedProfile = await profile.save();
+        res.status(204).json(savedProfile);
+      } catch (error) {
+        return res.status(404).json({
+          noProfile: "No profile was found for this user"
+        });
       }
-    )
+    }
   );
   //@route DELETE /api/profile/education
   //@desc delete user education from profile
   //@access private
   app.delete(
     "/api/profile/education/:edu_id",
-    passport.authenticate(
-      "jwt",
-      {
-        session: false
-      },
-      async (req, res) => {
-        const errors = {};
-        try {
-          const { edu_id } = req.params;
-          const profile = await Profile.findOne({
-            user: req.user.id
-          });
-          if (!profile) {
-            errors.profile = "No profile was found for this user";
-            return res.status(404).json(errors);
-          }
-          const indexOfEducation = profile.education
-            .map(ed => ed._id)
-            .indexOf(edu_id);
-          profile.education.splice(indexOfEducation, 1);
-          const savedProfile = await profile.save();
-          res.status(204);
-        } catch (error) {
-          return res.status(404).json({
-            profile: "No profile was found for this user"
-          });
+    passport.authenticate("jwt", {
+      session: false
+    }),
+    async (req, res) => {
+      const errors = {};
+      try {
+        const { edu_id } = req.params;
+        const profile = await Profile.findOne({
+          user: req.user.id
+        });
+        if (!profile) {
+          errors.profile = "No profile was found for this user";
+          return res.status(404).json(errors);
         }
+        const indexOfEducation = profile.education
+          .map(ed => ed._id)
+          .indexOf(edu_id);
+        profile.education.splice(indexOfEducation, 1);
+        const savedProfile = await profile.save();
+        res.json(savedProfile);
+      } catch (error) {
+        return res.status(404).json({
+          profile: "No profile was found for this user"
+        });
       }
-    )
+    }
   );
   //@route DELETE /api/profile/education
   //@desc delete user education from profile

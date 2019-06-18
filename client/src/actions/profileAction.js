@@ -3,7 +3,8 @@ import {
   PROFILE_LOADING,
   GET_PROFILE,
   GET_ERRORS,
-  SET_CURRENT_USER
+  SET_CURRENT_USER,
+  GET_PROFILES
 } from "./types";
 
 export const getProfile = () => async dispatch => {
@@ -14,6 +15,16 @@ export const getProfile = () => async dispatch => {
     dispatch({ type: GET_PROFILE, payload: result.data });
   } catch (error) {
     dispatch({ type: GET_PROFILE, payload: {} });
+  }
+};
+export const getProfiles = () => async dispatch => {
+  let result;
+  try {
+    dispatch({ type: PROFILE_LOADING });
+    result = await axios.get("/api/profile/all");
+    dispatch({ type: GET_PROFILES, payload: result.data });
+  } catch (error) {
+    dispatch({ type: GET_PROFILE, payload: null });
   }
 };
 export const createProfile = (newProfile, history) => async dispatch => {

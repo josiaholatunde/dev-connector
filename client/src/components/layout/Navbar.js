@@ -55,7 +55,7 @@ class NavBar extends Component {
               <Link to="/">DevConnector</Link>
             </li>
             <li>
-              <Link to="/profile">Developers</Link>
+              <Link to="/profiles">Developers</Link>
             </li>
           </ul>
           <ul className="nav-right">
