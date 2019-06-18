@@ -42,3 +42,29 @@ export const addExperience = (newExp, history) => async dispatch => {
     dispatch({ type: GET_ERRORS, payload: error.response.data });
   }
 };
+
+export const addEducation = (newEdu, history) => async dispatch => {
+  try {
+    const result = await axios.post("/api/profile/education", newEdu);
+    history.push("/dashboard");
+  } catch (error) {
+    dispatch({ type: GET_ERRORS, payload: error.response.data });
+  }
+};
+
+export const deleteExperience = id => async dispatch => {
+  try {
+    const result = await axios.delete(`/api/profile/experience/${id}`);
+    dispatch({ type: GET_PROFILE, payload: result.data });
+  } catch (error) {
+    dispatch({ type: GET_ERRORS, payload: error.response.data });
+  }
+};
+export const deleteEducation = id => async dispatch => {
+  try {
+    const result = await axios.delete(`/api/profile/education/${id}`);
+    dispatch({ type: GET_PROFILE, payload: result.data });
+  } catch (error) {
+    dispatch({ type: GET_ERRORS, payload: error.response.data });
+  }
+};

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import TextFieldGroup from "../common/TextFieldGroup";
-import { GET_ERRORS } from "../../actions/types";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import { addEducation } from "../../actions/profileAction";
 import { withRouter } from "react-router-dom";
